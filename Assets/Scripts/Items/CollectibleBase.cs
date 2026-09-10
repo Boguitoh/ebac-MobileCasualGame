@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CollectibleBase : MonoBehaviour
 {
-    public string compareTag;
+    public string compareTag = "Player";
     public ParticleSystem particle;
     public float timeToHide;
     public GameObject graphicItem;
@@ -11,14 +11,15 @@ public class CollectibleBase : MonoBehaviour
     [Header("Sounds")]
     public AudioSource audioSource;
 
-    /* 
+     
     private void Awake()
     {
         if (particle != null) particle.transform.SetParent(null);
         // Move o objeto para a raíz do projeto, evitando exclusão
     }
-    Método não funcionou, "transform resides in a prefab asset and cannot be set to prevent data corruption"
-    */
+    //Método não funcionou, "transform resides in a prefab asset and cannot be set to prevent data corruption"
+    //Agora funciona (?)
+    
 
     private void OnTriggerEnter(Collider collision)
     {
@@ -31,7 +32,7 @@ public class CollectibleBase : MonoBehaviour
     protected virtual void Collect()
     {
         if (graphicItem != null) graphicItem.SetActive(false);
-        this.GetComponent<CircleCollider2D>().enabled = false;
+        this.GetComponent<Collider>().enabled = false;
         Invoke("HideObject", timeToHide);
         OnCollect();
     }

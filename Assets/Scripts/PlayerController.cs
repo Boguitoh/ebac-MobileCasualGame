@@ -1,0 +1,11 @@
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    public float speed = 1f;
+
+    private void Update()
+    {
+        transform.Translate(transform.forward * speed * Time.deltaTime);
+    }
+}
