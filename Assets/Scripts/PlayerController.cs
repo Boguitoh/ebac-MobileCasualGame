@@ -7,17 +7,22 @@ public class PlayerController : MonoBehaviour
     public float lerpSpeed;
 
     [Header("Movement")]
-    public float speed = 1f;
+    public float forwardSpeed = 1f;
 
     [Header("Collisions")]
     public string tagToCheckEnemy = "Enemy";
+    public string tagToCheckEndLine = "EndLine";
+
+    [Header("Misc")]
+    public GameObject startScreen;
+    public GameObject endScreen;
 
     private bool _canRun;
     private Vector3 _pos;
 
     private void Start()
     {
-        _canRun = true;
+        //startScreen.SetActive(true);
     }
 
     private void Update()
@@ -30,14 +35,29 @@ public class PlayerController : MonoBehaviour
         _pos.z = transform.position.z;
         
         transform.position = Vector3.Lerp(transform.position, _pos, Time.deltaTime * lerpSpeed);
-        transform.Translate(transform.forward * speed * Time.deltaTime);
+        transform.Translate(transform.forward * forwardSpeed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.transform.tag == tagToCheckEnemy)
         {
-            _canRun = false;
+            EndGame();
         }
+        if(collision.transform.tag == tagToCheckEndLine)
+        {
+            EndGame();
+        }
+    }
+
+    private void EndGame()
+    {
+        _canRun = false;
+        endScreen.SetActive(true);
+    }
+
+    public void StartToRun()
+    {
+        _canRun = true;
     }
 }
