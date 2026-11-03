@@ -1,4 +1,6 @@
+using DG.Tweening;
 using ebac.Core.Singleton;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : Singleton<PlayerController>
@@ -17,6 +19,11 @@ public class PlayerController : Singleton<PlayerController>
     [Header("Misc")]
     public GameObject startScreen;
     public GameObject endScreen;
+    public TextMeshPro powerUpText;
+
+    [Header("Boundary")]
+    public float limit = 4;
+    public Vector2 limitVector = new Vector2(-4, 4);
 
     private bool _canRun;
     private Vector3 _pos;
@@ -79,7 +86,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public void SetPowerUpText(string s)
     {
-        //powerUpUiText.text = s;
+        powerUpText.text = s;
     }
 
     public void PowerUp_Speed(float f)
@@ -95,6 +102,29 @@ public class PlayerController : Singleton<PlayerController>
     public void SetInvincible(bool b = true)
     {
         invincible = b;
+    }
+
+    public void ChangeHeight(float heightAmount, float powerDuration, float animationDuration, Ease ease)
+    {
+        /*
+        var p = transform.position;
+        p.y = _startPosition.y + heightAmount;
+        _startPosition = p;
+        */
+
+        transform.DOMoveY(_startPosition.y + heightAmount, animationDuration).SetEase(ease);
+        Invoke(nameof(ResetHeight), powerDuration);
+    }
+
+    public void ResetHeight(float animationDuration)
+    {
+        /*
+        var p = transform.position;
+        p.y = _startPosition.y;
+        transform.position = p;
+        */
+
+        transform.DOMoveY(_startPosition.y, animationDuration);
     }
 
     #endregion
