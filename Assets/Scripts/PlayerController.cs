@@ -19,7 +19,9 @@ public class PlayerController : Singleton<PlayerController>
     [Header("Misc")]
     public GameObject startScreen;
     public GameObject endScreen;
+    public GameObject coinCollector;
     public TextMeshPro powerUpText;
+    public TextMeshPro flyingText;
 
     [Header("Boundary")]
     public float limit = 4;
@@ -89,6 +91,11 @@ public class PlayerController : Singleton<PlayerController>
         powerUpText.text = s;
     }
 
+    public void SetFlyingText(string s)
+    {
+        flyingText.text = s;
+    }
+
     public void PowerUp_Speed(float f)
     {
         _currentSpeed = f;
@@ -125,6 +132,11 @@ public class PlayerController : Singleton<PlayerController>
         */
 
         transform.DOMoveY(_startPosition.y, animationDuration);
+    }
+
+    public void ChangeCoinCollectorSize(float amount)
+    {
+        coinCollector.transform.localScale = Vector3.one * amount;
     }
 
     #endregion
