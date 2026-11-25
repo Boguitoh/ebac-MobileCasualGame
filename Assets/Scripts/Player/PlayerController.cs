@@ -12,6 +12,9 @@ public class PlayerController : Singleton<PlayerController>
     [Header("Movement")]
     public float forwardSpeed = 1f;
 
+    [Header("Animation")]
+    public AnimatorManager animatorManager;
+
     [Header("Collisions")]
     public string tagToCheckEnemy = "Enemy";
     public string tagToCheckEndLine = "EndLine";
@@ -59,8 +62,11 @@ public class PlayerController : Singleton<PlayerController>
     {
         if(collision.transform.tag == tagToCheckEnemy)
         {
-            if(!invincible)
-                EndGame();
+            if (!invincible)
+            {
+                MoveBack();
+                EndGame(AnimatorManager.AnimationType.DEATH);
+            }
         }
     }
 
@@ -68,20 +74,29 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (other.transform.tag == tagToCheckEndLine)
         {
-            if(!invincible)
+            if (!invincible)
+            {
                 EndGame();
+            }
         }
     }
 
-    private void EndGame()
+    private void MoveBack()
+    {
+        transform.DOMoveZ(-1f, .3f).SetRelative();
+    }
+
+    private void EndGame(AnimatorManager.AnimationType animationType = AnimatorManager.AnimationType.IDLE)
     {
         _canRun = false;
         endScreen.SetActive(true);
+        animatorManager.Play(animationType);
     }
 
     public void StartToRun()
     {
         _canRun = true;
+        animatorManager.Play(AnimatorManager.AnimationType.RUN);
     }
 
     #region PowerUp
