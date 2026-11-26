@@ -5,11 +5,7 @@ public class TouchController : MonoBehaviour
 {
     public Vector2 pastPosition;
     public float velocity;
-
-    void Start()
-    {
-        
-    }
+    public Vector2 moveLimit = new Vector2(-3, 3);
 
     void Update()
     {
@@ -22,7 +18,10 @@ public class TouchController : MonoBehaviour
 
     public void Move(float speed)
     {
-        transform.position += Vector3.right * Time.deltaTime * speed * velocity;
+        var _newPos = transform.position + Vector3.right * Time.deltaTime * speed * velocity;
+        _newPos.x = Mathf.Clamp(_newPos.x, moveLimit.x, moveLimit.y);
+        transform.position = _newPos;
+        //transform.position += Vector3.right * Time.deltaTime * speed * velocity;
     }
 
 }

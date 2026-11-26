@@ -26,9 +26,11 @@ public class PlayerController : Singleton<PlayerController>
     public TextMeshPro powerUpText;
     public TextMeshPro flyingText;
 
+    /*
     [Header("Boundary")]
     public float limit = 4;
     public Vector2 limitVector = new Vector2(-4, 4);
+    */
 
     private bool _canRun;
     private Vector3 _pos;
