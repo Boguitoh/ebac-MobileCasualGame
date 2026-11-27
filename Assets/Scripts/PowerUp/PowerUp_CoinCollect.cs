@@ -9,11 +9,13 @@ public class PowerUp_CoinCollect : PowerUpBase
     {
         base.StartPowerUp();
         PlayerController.instance.ChangeCoinCollectorSize(sizeAmount);
+        PlayerController.instance.SetPowerUpText("Pick-Up Range");
     }
 
     protected override void EndPowerUp()
     {
         base.EndPowerUp();
         PlayerController.instance.ChangeCoinCollectorSize(1);
+        PlayerController.instance.SetPowerUpText("");
     }
 }

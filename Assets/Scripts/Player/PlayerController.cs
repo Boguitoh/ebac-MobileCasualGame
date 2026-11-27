@@ -10,7 +10,7 @@ public class PlayerController : Singleton<PlayerController>
     public float lerpSpeed;
 
     [Header("Movement")]
-    public float forwardSpeed = 1f;
+    public float speed = 6f;
 
     [Header("Animation")]
     public AnimatorManager animatorManager;
@@ -36,8 +36,8 @@ public class PlayerController : Singleton<PlayerController>
     private Vector3 _pos;
     private float _currentSpeed;
     private Vector3 _startPosition;
-
     private bool invincible = false;
+    private float _baseAnimationSpeed = 6;
 
     private void Start()
     {
@@ -62,7 +62,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.transform.tag == tagToCheckEnemy)
+        if(collision.transform.CompareTag(tagToCheckEnemy))
         {
             if (!invincible)
             {
@@ -74,7 +74,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == tagToCheckEndLine)
+        if (other.transform.CompareTag(tagToCheckEndLine))
         {
             if (!invincible)
             {
@@ -98,7 +98,7 @@ public class PlayerController : Singleton<PlayerController>
     public void StartToRun()
     {
         _canRun = true;
-        animatorManager.Play(AnimatorManager.AnimationType.RUN);
+        animatorManager.Play(AnimatorManager.AnimationType.RUN, _currentSpeed / _baseAnimationSpeed);
     }
 
     #region PowerUp
@@ -120,7 +120,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public void ResetSpeed()
     {
-        _currentSpeed = forwardSpeed;
+        _currentSpeed = speed;
     }
 
     public void SetInvincible(bool b = true)
